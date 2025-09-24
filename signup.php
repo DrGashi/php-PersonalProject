@@ -45,6 +45,13 @@
 	  border: none;
 	}
 
+	.form-signin input:focus {
+	  background-color:rgba(88, 93, 114, 1);
+	  border: none;
+	  box-shadow: none;
+	  color: white;
+	}
+
 	.form-signin input[type="email"] {
 	  margin-bottom: -1px;
 	  border-bottom-right-radius: 0;

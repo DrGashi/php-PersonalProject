@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2025 at 07:17 PM
+-- Generation Time: Sep 24, 2025 at 07:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `car_mechanic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `make` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `time` varchar(255) NOT NULL,
+  `is_approved` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `user_id`, `make`, `model`, `date`, `time`, `is_approved`) VALUES
+(1, 1, 'Volkswagen', 'Passat', '2025-09-25', '12:00', 'false');
 
 -- --------------------------------------------------------
 
@@ -42,18 +65,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `confirm_password`, `is_admin`) VALUES
-(1, 'Dren', 'drengashi', 'drengashi@gmail.com', '$2y$10$j.5Zl7n3vlTi/u8tsev74e.K.JiPmFPGN2D0BN8M5dV.Bg0s5lVhq', '$2y$10$1hwcbN6ihTSxdubhrxUHgupTAQ51YHPPziTGqXZ1mBwuiq18UtoPG', 'true'),
-(3, 'Deon', 'deonbeka', 'deonbeka@gmail.com', '$2y$10$Ap.WlnVXTzmscdpS6w6/x.jpUkTXVMkEsg30wvRtxSkTHV4n0t8ye', '$2y$10$vEUH8YlId3rwqpufx1Aguuhswn1R6.hiAY8D5QRsp8iuVfYYlxZmW', 'false'),
-(4, 'Amant', 'amantzabeli', 'amantzabeli@gmail.com', '$2y$10$jK1IOJnYfJZJZE3EWOEQSOfCYf6bW3ZmGb3ECbQVUgsKMtyhsmoM.', '$2y$10$Q67MczLW//tKvHKXft8I7ugmGqjR0T6bdjXHWD2ddli1EfqGZq/Sm', 'false');
+(1, 'Dren', 'drengashi', 'drengashi@gmail.com', '$2y$10$KbHWC34PL5XURmPXEsr04O22Y.GZNFS2XVfTRgntWuy2NypN3apDK', '$2y$10$y6jev/RRKV4BLvUN4U9rO.4Xa.YBVR2dsAu2x8grIZlNV8soZqGNm', 'true');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `users`
+-- Indexes for table `appointments`
 --
-ALTER TABLE `users`
+ALTER TABLE `appointments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -61,10 +82,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `appointments`
 --
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `appointments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

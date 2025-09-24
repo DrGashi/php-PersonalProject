@@ -16,7 +16,7 @@
  <!DOCTYPE html>
  <html>
  <head>
- 	<title>Dashboard</title>
+ 	<title>Appointment</title>
  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
  	 <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -30,8 +30,8 @@
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
   <style>
-    .admin::first-letter{
-      text-transform: uppercase;
+    .form-floating{
+      margin: 20px 0;
     }
   </style>
  </head>
@@ -92,72 +92,43 @@
         </ul>
       <?php
       } ?>
-
-        
       </div>
     </nav>
-
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-      </div>
-      
-      <?php if(isset($_SESSION['success_message'])): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <?php echo $_SESSION['success_message']; ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <main>
+      <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-7 col-sm-6">
+                    <form action="appnt.php" method="post">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Make" name="make" required>
+                            <label for="floatingInput">Make</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Model" name="model" required>
+                            <label for="floatingInput">Model</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="floatingInput" placeholder="Date" name="date" required>
+                            <label for="floatingInput">Date</label>
+                        </div>
+                        <div class="form-floating">
+                        <select name="time">
+                            <option value="12:00">12:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="19:00">19:00</option>
+                        </select>
+                        </div>
+                        <button class="w-100 btn btn-lg btn-primary" type="submit" name="submit">Book</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <?php unset($_SESSION['success_message']); ?>
-      <?php endif; ?>
-      
-      <?php if(isset($_SESSION['error_message'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <?php echo $_SESSION['error_message']; ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['error_message']); ?>
-      <?php endif; ?>
-
-    <?php if ($_SESSION['is_admin'] == 'true') { ?>
-
-      <h2>Users</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Emri</th>
-              <th scope="col">Username</th>
-              <th scope="col">Email</th>
-              <th scope="col">Admin</th>
-              <th scope="col">Update</th>
-              <th scope="col">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($users_data as $user_data) { ?>
-               <tr>
-                <td><?php echo $user_data['id']; ?></td>
-                <td><?php echo $user_data['name']; ?></td>
-                <td><?php echo $user_data['username']; ?></td>
-                <td><?php echo $user_data['email']; ?></td>
-                <td class="admin"><?php echo $user_data['is_admin']; ?></td>
-                <td><a href="editUsers.php?id=<?= $user_data['id'];?>">Update</a></td>
-                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>">Delete</a></td>
-              </tr>
-           <?php  } ?>
-          </tbody>
-        </table>
-      </div>
-     <?php  } else {
-      
-    } ?>
+    </div>
     </main>
-  </div>
-</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
-  </body>
-</html>
  </body>
  </html>

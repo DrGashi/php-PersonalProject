@@ -39,6 +39,12 @@
 	  border: none;
 	}
 
+	.form-signin input:focus {
+	  background-color:rgba(88, 93, 114, 1);
+	  border: none;
+	  box-shadow: none;
+	}
+
 	.form-signin .checkbox {
 	  font-weight: 400;
 	}

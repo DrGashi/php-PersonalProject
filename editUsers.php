@@ -3,6 +3,9 @@
 	 session_start();
 
    include_once('database/config.php');
+   if (empty($_SESSION['username'])) {
+          header("Location: login.php");
+    }
 
    $id = $_GET['id'];
 

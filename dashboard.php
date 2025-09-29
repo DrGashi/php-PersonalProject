@@ -11,6 +11,14 @@
     $selectUsers = $conn->prepare($sql);
     $selectUsers->execute();
     $users_data = $selectUsers->fetchAll();
+
+    $carWorkingOn = "SELECT appointments.id, appointments.make, appointments.model, appointments.year, appointments.date, appointments.time, appointments.is_approved, appointments.working_on, appointments.image 
+        FROM appointments 
+        INNER JOIN users ON users.id = appointments.user_id 
+        WHERE appointments.working_on = 'true'";
+    $getCarWorkingOn = $conn->prepare($carWorkingOn);
+    $getCarWorkingOn->execute();
+    $carWorkingOnData = $getCarWorkingOn->fetchAll();
  ?>
 
  <!DOCTYPE html>
@@ -32,6 +40,9 @@
   <style>
     .admin::first-letter{
       text-transform: uppercase;
+    }
+    .car{
+      margin-top: 5%;
     }
   </style>
  </head>
@@ -61,12 +72,6 @@
             <a class="nav-link active" aria-current="page" href="dashboard.php">
               <span data-feather="home"></span>
               Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="list_movies.php">
-              <span data-feather="file"></span>
-              Movies
             </a>
           </li>
           <li class="nav-item">
@@ -149,6 +154,36 @@
           </tbody>
         </table>
       </div>
+      <h2 class="car">Car you are currently working on</h2>
+      <hr>
+      <?php if (count($carWorkingOnData) > 0): ?>
+      <div class="row">
+        <?php foreach ($carWorkingOnData as $car): ?>
+          <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+              <?php if (!empty($car['image'])): ?>
+                <img src="images/<?php echo htmlspecialchars($car['image']); ?>" class="card-img-top" alt="Car Image" style="max-height: 300px; object-fit: cover;">
+              <?php else: ?>
+                <img src="images/default-car.jpg" class="card-img-top" alt="Default Car" style="max-height: 300px; object-fit: cover;">
+              <?php endif; ?>
+              <div class="card-body">
+                <h5 class="card-title"><?php echo htmlspecialchars($car['make'] . ' ' . $car['model']); ?></h5>
+                <p class="card-text">
+                  <strong>Year:</strong> <?php echo htmlspecialchars($car['year']); ?><br>
+                  <strong>Date:</strong> <?php echo htmlspecialchars($car['date']); ?><br>
+                  <strong>Time:</strong> <?php echo htmlspecialchars($car['time']); ?><br>
+                  <strong>Approved:</strong> <?php echo ($car['is_approved'] === 'true') ? 'Yes' : 'No'; ?><br>
+                  <strong>Working on:</strong> <?php echo ($car['working_on'] === 'true') ? 'Yes' : 'No'; ?>
+                </p>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+<?php else: ?>
+  <p>No cars are currently being worked on.</p>
+<?php endif; ?>
+
      <?php  } else {
       
     } ?>

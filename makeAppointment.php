@@ -64,12 +64,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="list_movies.php">
-              <span data-feather="file"></span>
-              Movies
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="appointments.php">
               <span ></span>
               Appointments
@@ -110,6 +104,13 @@
                         <div class="form-floating">
                             <input type="text" class="form-control" id="floatingInput" placeholder="Model" name="model" required>
                             <label for="floatingInput">Model</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Year" name="year" required>
+                            <label for="floatingInput">Year</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="file" class="form-control" id="floatingInput" placeholder="Image" name="image" required>
                         </div>
                         <div class="form-floating">
                             <input type="date" class="form-control" id="floatingInput" placeholder="Date" name="date" required>

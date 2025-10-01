@@ -114,7 +114,7 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <h2>Approved Appointments - Car Stats</h2>
+      <h2>Car Stats</h2>
       <div class="table-responsive table">
         <table class="table table-striped table-sm">
           <thead>

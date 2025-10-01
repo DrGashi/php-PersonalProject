@@ -35,6 +35,83 @@
 	<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
+  <style>
+    body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+  }
+
+  .nav-link {
+    color: #333;
+    transition: all 0.3s;
+  }
+
+  .nav-link:hover {
+    background-color: #e9ecef;
+    border-radius: 4px;
+    color: #000;
+  }
+
+  h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #343a40;
+  }
+
+  .sidebar {
+    background-color: #f1f3f5;
+    border-right: 1px solid #dee2e6;
+  }
+
+  .table-responsive {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .table th {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+  }
+
+  .table td, .table th {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  a.action-link {
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 5px;
+  }
+
+  a.action-link:hover {
+    text-decoration: underline;
+  }
+
+  .approved {
+    margin-top: 3rem;
+  }
+  .nav-link i {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.form-floating{
+  margin: 10px 0;
+}
+  </style>
  </head>
  <body>
  
@@ -57,12 +134,14 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="dashboard.php">
-              <span data-feather="home"></span>
-              Dashboard
-            </a>
-          
+          <?php if ($_SESSION['is_admin'] == 'true') { ?>
+                        <li class="nav-item"><a class="nav-link active" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
+                    <?php } else { ?>
+                        <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                        <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+                    <?php } ?>
         </ul>
 
        
@@ -127,6 +206,9 @@
   </body>
 </html>
 
-
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<script>
+  feather.replace();
+</script>
  </body>
  </html>

@@ -6,6 +6,9 @@
     if (empty($_SESSION['username'])) {
           header("Location: login.php");
     }
+    if ($_SESSION['is_admin'] == 'false') {
+          header('Location: makeAppointment.php');
+    }
    
     $sql = "SELECT * FROM users";
     $selectUsers = $conn->prepare($sql);
@@ -38,13 +41,81 @@
 	<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
 	<meta name="theme-color" content="#7952b3">
   <style>
-    .admin::first-letter{
-      text-transform: uppercase;
-    }
-    .car{
-      margin-top: 5%;
-    }
-  </style>
+  body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .admin::first-letter {
+    text-transform: uppercase;
+  }
+  .navbar-brand {
+    font-weight: bold;
+  }
+  .nav-link {
+    color: #333;
+    transition: all 0.3s;
+  }
+  .nav-link:hover {
+    background-color: #e9ecef;
+    border-radius: 4px;
+    color: #000;
+  }
+  .table th {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+  }
+  .table td, .table th {
+    vertical-align: middle;
+    text-align: center;
+  }
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  .card {
+    transition: transform 0.2s ease-in-out;
+  }
+  .card:hover {
+    transform: scale(1.02);
+  }
+  .card-img-top {
+    border-bottom: 1px solid #dee2e6;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  .sidebar {
+    background-color: #f1f3f5;
+    border-right: 1px solid #dee2e6;
+  }
+  h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #343a40;
+  }
+  .car {
+    margin-top: 3rem;
+  }
+  .table-responsive {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .btn {
+    font-size: 0.9rem;
+  }
+  .alert {
+    margin-top: 1rem;
+  }
+  .nav-link i {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+</style>
  </head>
  <body>
  
@@ -68,35 +139,13 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
            <?php if ($_SESSION['is_admin'] == 'true') { ?>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="dashboard.php">
-              <span data-feather="home"></span>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="appointments.php">
-              <span ></span>
-              Appointments
-            </a>
-          </li>
-        </ul>
-        <?php }else {?>
-          <li class="nav-item">
-          <a class="nav-link" href="appointments.php">
-            <span ></span>
-            Appointments
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="makeAppointment.php">
-            <span ></span>
-            Make Appointment
-          </a>
-        </li>
-        </ul>
-      <?php
-      } ?>
+                        <li class="nav-item"><a class="nav-link active" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
+                    <?php } else { ?>
+                        <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                        <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+                    <?php } ?>
 
         
       </div>
@@ -147,14 +196,15 @@
                 <td><?php echo $user_data['username']; ?></td>
                 <td><?php echo $user_data['email']; ?></td>
                 <td class="admin"><?php echo $user_data['is_admin']; ?></td>
-                <td><a href="editUsers.php?id=<?= $user_data['id'];?>">Update</a></td>
-                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>">Delete</a></td>
+                <td><a href="editUsers.php?id=<?= $user_data['id'];?>" class="text-primary"><i data-feather="edit"></i></a></td>
+                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>" class="text-danger"><i data-feather="trash-2"></i></a></td>
               </tr>
            <?php  } ?>
           </tbody>
         </table>
       </div>
-      <h2 class="car">Car you are currently working on</h2>
+      <hr class="my-4">
+      <h2 class="car">Cars You Are Currently Working On</h2>
       <hr>
       <?php if (count($carWorkingOnData) > 0): ?>
       <div class="row">
@@ -192,6 +242,9 @@
 </div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+      <script>
+        feather.replace()
+      </script>
   </body>
 </html>
  </body>

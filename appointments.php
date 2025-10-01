@@ -156,8 +156,12 @@
                             <th scope="col">Year</th>
                             <th scope="col">Date</th>
                             <th scope="col">Time</th>
+                            <?php if ($_SESSION['is_admin'] == 'true') { ?>
                             <th></th>
                             <th></th>
+                            <?php } else {?>
+                                <th>Status</th>
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>

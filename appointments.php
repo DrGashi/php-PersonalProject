@@ -23,15 +23,15 @@
     $approvdAppntsData = $getApprvdAppnts->fetchAll();
 } else {
     $sql = "SELECT appointments.id, appointments.make, appointments.model, appointments.year, appointments.date, appointments.time, appointments.is_approved 
-            FROM appointments
-            INNER JOIN users ON users.id = appointments.user_id 
-            AND appointments.user_id = :user_id";
+        FROM appointments
+        INNER JOIN users ON users.id = appointments.user_id
+        WHERE appointments.user_id = :user_id";
+
 
     $selectAppointments = $conn->prepare($sql);
     $selectAppointments->bindParam(':user_id', $user_id);
     $selectAppointments->execute();
     $appointments_data = $selectAppointments->fetchAll();
-}
 
 ?>
 
@@ -136,7 +136,8 @@
                     <?php if ($_SESSION['is_admin'] == 'true') { ?>
                         <li class="nav-item"><a class="nav-link active" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
+                        <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
+                        <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
                     <?php } else { ?>
                         <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                         <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
@@ -175,7 +176,24 @@
                             <?php if ($_SESSION['is_admin'] == 'true') { ?>
                                 <td><a href="approve.php?id=<?= $appointment_data['id']; ?>" class="text-success"><i data-feather="check-circle"></i></a></td>
                                 <td><a href="decline.php?id=<?= $appointment_data['id']; ?>" class="text-danger"><i data-feather="x-circle"></i></a></td>
-                            <?php } ?>
+                            <?php }else{ 
+                                    $statusCar = $appointment_data['is_approved'];
+                                    if ($statusCar === 'false') {
+                                        $status = "Waiting approval";
+                                    } elseif ($statusCar === 'true') {
+                                        $status = "Approved";
+                                    } elseif ($statusCar === 'done') {
+                                        $status = "Done";
+                                    } elseif ($statusCar === 'pickedUp') {
+                                        $status = "Picked up";
+                                    } else {
+                                        $status = "Unknown";
+                                    }
+
+                                      }?>
+                              
+                              <td><?php echo $status; if($status == 'true'){?><a href="carDone.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Done</a>}<php??></td>
+                              <?php } ?>
                         </tr>
                     <?php } ?>
                     </tbody>

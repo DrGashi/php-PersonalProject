@@ -91,13 +91,14 @@ if (!$car) {
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <?php if ($_SESSION['is_admin'] == 'true') { ?>
-            <li class="nav-item"><a class="nav-link" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
-            <li class="nav-item"><a class="nav-link active" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
-          <?php } else { ?>
-            <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
-            <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
-          <?php } ?>
+                <li class="nav-item"><a class="nav-link active" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
+                <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
+            <?php } else { ?>
+                <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+            <?php } ?>
         </ul>
       </div>
     </nav>
@@ -138,8 +139,13 @@ if (!$car) {
         </div>
 
         <div class="form-floating">
-          <input type="number" class="form-control" id="mpg_city" placeholder="Weight" name="weight" value="<?= htmlspecialchars($car['weight'] ?? '') ?>">
+          <input type="number" class="form-control" id="weight" placeholder="Weight" name="weight" value="<?= htmlspecialchars($car['weight'] ?? '') ?>">
           <label for="mpg_city">Weight</label>
+        </div>
+
+        <div class="form-floating">
+          <textarea class="form-control" id="description" placeholder="Description" name="description" value="<?= htmlspecialchars($car['description'] ?? '') ?>"></textarea>
+          <label for="mpg_city">Description</label>
         </div>
 
         <br>

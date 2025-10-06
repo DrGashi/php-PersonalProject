@@ -102,13 +102,14 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <?php if ($_SESSION['is_admin'] == 'true') { ?>
-            <li class="nav-item"><a class="nav-link" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
-            <li class="nav-item"><a class="nav-link active" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
-          <?php } else { ?>
-            <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
-            <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
-          <?php } ?>
+                <li class="nav-item"><a class="nav-link active" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
+                <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
+            <?php } else { ?>
+                <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
+                <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+            <?php } ?>
         </ul>
       </div>
     </nav>
@@ -129,6 +130,7 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <th>Drivetrain</th>
               <th>Fuel</th>
               <th>Weight</th>
+              <th>Description</th>
               <th>Action</th>
               <th></th>
             </tr>
@@ -145,8 +147,8 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= !empty($car['transmission']) ? htmlspecialchars($car['transmission']) : '<span class="text-muted">Add stats</span>' ?></td>
                 <td><?= !empty($car['drivetrain']) ? htmlspecialchars($car['drivetrain']) : '<span class="text-muted">Add stats</span>' ?></td>
                 <td><?= !empty($car['fuel_type']) ? htmlspecialchars($car['fuel_type']) : '<span class="text-muted">Add stats</span>' ?></td>
-                <td><?= !empty($car['mpg_city']) ? htmlspecialchars($car['mpg_city']) : '<span class="text-muted">Add stats</span>' ?></td>
-                <td><?= !empty($car['mpg_highway']) ? htmlspecialchars($car['mpg_highway']) : '<span class="text-muted">Add stats</span>' ?></td>
+                <td><?= !empty($car['weight']) ? htmlspecialchars($car['weight']) : '<span class="text-muted">Add stats</span>' ?></td>
+                <td style="max-width: 100px;"><?= !empty($car['description']) ? htmlspecialchars($car['description']) : '<span class="text-muted">Add stats</span>' ?></td>
                 <td><a href="editCarStats.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Edit</a></td>
             </tr>
             <?php } ?>

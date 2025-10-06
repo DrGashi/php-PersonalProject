@@ -18,10 +18,17 @@
     $carWorkingOn = "SELECT appointments.id, appointments.make, appointments.model, appointments.year, appointments.date, appointments.time, appointments.is_approved, appointments.working_on, appointments.image 
         FROM appointments 
         INNER JOIN users ON users.id = appointments.user_id 
-        WHERE appointments.working_on = 'true'";
+        WHERE appointments.working_on = 'done'";
+    $carPickedUp = "SELECT appointments.id, appointments.make, appointments.model, appointments.year, appointments.date, appointments.time, appointments.is_approved, appointments.working_on, appointments.image 
+        FROM appointments 
+        INNER JOIN users ON users.id = appointments.user_id 
+        WHERE appointments.is_approved = 'pickedUp'";
     $getCarWorkingOn = $conn->prepare($carWorkingOn);
     $getCarWorkingOn->execute();
     $carWorkingOnData = $getCarWorkingOn->fetchAll();
+    $getCarPickedUp = $conn->prepare($carPickedUp);
+    $getCarPickedUp->execute();
+    $carPickedUpData = $getCarPickedUp->fetchAll();
  ?>
 
  <!DOCTYPE html>
@@ -142,7 +149,7 @@
                 <li class="nav-item"><a class="nav-link active" href="dashboard.php"><span data-feather="home"></span> Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
-                <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="bar-chart-2"></i> Finished Cars</a></li>
+                <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
             <?php } else { ?>
                 <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
@@ -152,58 +159,12 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h2">Finished Cars</h1>
       </div>
-      
-      <?php if(isset($_SESSION['success_message'])): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <?php echo $_SESSION['success_message']; ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['success_message']); ?>
-      <?php endif; ?>
-      
-      <?php if(isset($_SESSION['error_message'])): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <?php echo $_SESSION['error_message']; ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['error_message']); ?>
-      <?php endif; ?>
 
     <?php if ($_SESSION['is_admin'] == 'true') { ?>
 
-      <h2>Users</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Id</th>
-              <th scope="col">Emri</th>
-              <th scope="col">Username</th>
-              <th scope="col">Email</th>
-              <th scope="col">Admin</th>
-              <th scope="col">Update</th>
-              <th scope="col">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($users_data as $user_data) { ?>
-               <tr>
-                <td><?php echo $user_data['id']; ?></td>
-                <td><?php echo $user_data['name']; ?></td>
-                <td><?php echo $user_data['username']; ?></td>
-                <td><?php echo $user_data['email']; ?></td>
-                <td class="admin"><?php echo $user_data['is_admin']; ?></td>
-                <td><a href="editUsers.php?id=<?= $user_data['id'];?>" class="text-primary"><i data-feather="edit"></i></a></td>
-                <td><a href="deleteUsers.php?id=<?= $user_data['id'];?>" class="text-danger"><i data-feather="trash-2"></i></a></td>
-              </tr>
-           <?php  } ?>
-          </tbody>
-        </table>
-      </div>
-      <hr class="my-4">
-      <h2 class="car">Cars You Are Currently Working On</h2>
+      <h2 class="car">Cars That Are Ready For Pick Up</h2>
       <hr>
       <?php if (count($carWorkingOnData) > 0): ?>
       <div class="row">
@@ -216,25 +177,47 @@
                 <img src="images/default-car.jpg" class="card-img-top" alt="Default Car" style="max-height: 300px; object-fit: cover;">
               <?php endif; ?>
               <div class="card-body">
-                <h5 class="card-title"><?php echo htmlspecialchars($car['make'] . ' ' . $car['model']); ?></h5>
+                <h5 class="card-title"><?php echo htmlspecialchars($car['year'] . ' ' . $car['make'] . ' ' . $car['model']); ?></h5>
                 <p class="card-text">
-                  <strong>Year:</strong> <?php echo htmlspecialchars($car['year']); ?><br>
-                  <strong>Date:</strong> <?php echo htmlspecialchars($car['date']); ?><br>
-                  <strong>Time:</strong> <?php echo htmlspecialchars($car['time']); ?><br>
+                  <strong>Status:</strong> <span style="text-transform: capitalize;"><?php echo htmlspecialchars($car['working_on']); ?></span><br>
                 </p>
-                <td><a href="carDone.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Done</a></td>
+                <td><a href="pickedUp.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Pick up</a></td>
               </div>
             </div>
           </div>
         <?php endforeach; ?>
       </div>
-<?php else: ?>
-  <p>No cars are currently being worked on.</p>
-<?php endif; ?>
-
-     <?php  } else {
-      
-    } ?>
+      <?php else: ?>
+        <p>No cars waiting for pick up.</p>
+      <?php endif; ?>
+          <?php  } else {
+          } ?>
+          <hr>
+          <h2>Cars that have been picked up.</h2>
+    <div class="table-responsive table">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Make</th>
+                            <th scope="col">Model</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($carPickedUpData as $car) { ?>
+                        <tr>
+                            <td><?php echo $car['make']; ?></td>
+                            <td><?php echo $car['model']; ?></td>
+                            <td><?php echo $car['year']; ?></td>
+                            <td><?php echo $car['date']; ?></td>
+                            <td><?php echo $car['time']; ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
     </main>
   </div>
 </div>

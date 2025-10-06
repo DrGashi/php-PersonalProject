@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2025 at 07:14 PM
+-- Generation Time: Oct 06, 2025 at 07:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,8 +45,8 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `user_id`, `make`, `model`, `year`, `date`, `time`, `is_approved`, `image`, `working_on`) VALUES
-(1, 1, 'Volkswagen', 'Passat', 2021, '2025-09-25', '12:00', 'false', 'passat.jpg', 'false'),
-(3, 1, 'Yugo', 'Koral 45', 1991, '2025-10-15', '17:00', 'false', 'Yugo 45.jpg', 'false'),
+(1, 3, 'Volkswagen', 'Passat', 2021, '2025-09-25', '12:00', 'false', 'passat.jpg', 'false'),
+(3, 3, 'Yugo', 'Koral 45', 1991, '2025-10-15', '17:00', 'false', 'Yugo 45.jpg', 'false'),
 (4, 2, 'Porsche', '911', 2023, '2025-09-30', '19:00', 'true', 'porsche.jpg', 'false');
 
 -- --------------------------------------------------------
@@ -63,7 +63,8 @@ CREATE TABLE `cars` (
   `transmission` varchar(255) DEFAULT NULL,
   `drivetrain` varchar(255) DEFAULT NULL,
   `fuel_type` varchar(255) DEFAULT NULL,
-  `weight` varchar(255) DEFAULT NULL
+  `weight` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

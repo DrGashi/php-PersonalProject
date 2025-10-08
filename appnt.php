@@ -12,9 +12,10 @@
 	$year = $_POST['year'];
 	$date = $_POST['date'];
 	$time = $_POST['time'];
-	$time = $_POST['image'];
+	$image = $_POST['image'];
 	$is_approved = "false";
-	$sql = "INSERT INTO appointments(user_id, make, model, year, date, time, is_approved, image) VALUES (:user_id, :make, :model, :year, :date, :time, :is_approved, :image)";
+	$working_on = "false";
+	$sql = "INSERT INTO appointments(user_id, make, model, year, date, time, is_approved, image, working_on) VALUES (:user_id, :make, :model, :year, :date, :time, :is_approved, :image, :working_on)";
 
 	$insertBooking = $conn->prepare($sql);
 
@@ -26,6 +27,7 @@
 	$insertBooking->bindParam(":time", $time);
 	$insertBooking->bindParam(":image", $image);
 	$insertBooking->bindParam(":is_approved", $is_approved);
+	$insertBooking->bindParam(":working_on", $working_on);
 
 	$insertBooking->execute();
 

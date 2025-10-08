@@ -89,11 +89,6 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><?php echo "Welcome to dashboard " . $_SESSION['username']; ?></a>
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="logout.php">Sign out</a>
-    </div>
-  </div>
 </header>
 
 <div class="container-fluid">
@@ -106,9 +101,11 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
                 <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.php"><i data-feather="log-out"></i> Log Out</a></li>
             <?php } else { ?>
                 <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.php"><i data-feather="log-out"></i> Log Out</a></li>
             <?php } ?>
         </ul>
       </div>
@@ -129,8 +126,7 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <th>Transmission</th>
               <th>Drivetrain</th>
               <th>Fuel</th>
-              <th>Weight</th>
-              <th>Description</th>
+              <th>Weight (kg)</th>
               <th>Action</th>
               <th></th>
             </tr>
@@ -148,7 +144,6 @@ $appointmentsWithStats = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= !empty($car['drivetrain']) ? htmlspecialchars($car['drivetrain']) : '<span class="text-muted">Add stats</span>' ?></td>
                 <td><?= !empty($car['fuel_type']) ? htmlspecialchars($car['fuel_type']) : '<span class="text-muted">Add stats</span>' ?></td>
                 <td><?= !empty($car['weight']) ? htmlspecialchars($car['weight']) : '<span class="text-muted">Add stats</span>' ?></td>
-                <td style="max-width: 100px;"><?= !empty($car['description']) ? htmlspecialchars($car['description']) : '<span class="text-muted">Add stats</span>' ?></td>
                 <td><a href="editCarStats.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Edit</a></td>
             </tr>
             <?php } ?>

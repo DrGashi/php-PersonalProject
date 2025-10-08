@@ -32,7 +32,7 @@
     $selectAppointments->bindParam(':user_id', $user_id);
     $selectAppointments->execute();
     $appointments_data = $selectAppointments->fetchAll();
-
+}
 ?>
 
 
@@ -121,11 +121,6 @@
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><?php echo "Welcome to dashboard " . $_SESSION['username']; ?></a>
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="logout.php">Sign out</a>
-    </div>
-  </div>
 </header>
 
 <div class="container-fluid">
@@ -138,9 +133,11 @@
                         <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                         <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
                         <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
+                        <li class="nav-item"><a class="nav-link" href="logout.php"><i data-feather="log-out"></i> Log Out</a></li>
                     <?php } else { ?>
                         <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                         <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+                        <li class="nav-item"><a class="nav-link" href="logout.php"><i data-feather="log-out"></i> Log Out</a></li>
                     <?php } ?>
                 </ul>
             </div>
@@ -176,7 +173,7 @@
                             <?php if ($_SESSION['is_admin'] == 'true') { ?>
                                 <td><a href="approve.php?id=<?= $appointment_data['id']; ?>" class="text-success"><i data-feather="check-circle"></i></a></td>
                                 <td><a href="decline.php?id=<?= $appointment_data['id']; ?>" class="text-danger"><i data-feather="x-circle"></i></a></td>
-                            <?php }else{ 
+                            <?php }else{
                                     $statusCar = $appointment_data['is_approved'];
                                     if ($statusCar === 'false') {
                                         $status = "Waiting approval";
@@ -188,12 +185,12 @@
                                         $status = "Picked up";
                                     } else {
                                         $status = "Unknown";
-                                    }
-
-                                      }?>
-                              
-                              <td><?php echo $status; if($status == 'true'){?><a href="carDone.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Done</a>}<php??></td>
-                              <?php } ?>
+                                    }?>
+                                    <td><?php if ($status != 'Done') {echo $status;} ?>
+                                    <?php if($status == 'Done'){?><a href="pickedUp.php?id=<?= $car['id'] ?>" class="btn btn-sm btn-primary">Pick Up</a>
+                                    <?php } ?>
+                                    <?php }?>
+                                    </td>
                         </tr>
                     <?php } ?>
                     </tbody>

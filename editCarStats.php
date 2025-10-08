@@ -14,10 +14,17 @@ if (!$id) {
 }
 
 // Fetch the car appointment info joined with stats
-$sql = "SELECT a.id, a.make, a.model, a.year, cs.engine_type, cs.horsepower, cs.torque, cs.transmission, cs.drivetrain, cs.fuel_type, cs.weight
-        FROM appointments a 
-        LEFT JOIN cars cs ON a.id = cs.car_id 
+$sql = "SELECT a.id AS appointment_id,
+            a.make, a.model, a.year,
+            cs.car_id,
+            cs.engine_type, cs.horsepower, cs.torque, cs.transmission,
+            cs.drivetrain, cs.fuel_type, cs.weight, cs.description
+        FROM appointments a
+        LEFT JOIN cars cs ON a.id = cs.car_id
         WHERE a.id = :id";
+
+
+
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':id', $id);
 $stmt->execute();
@@ -77,12 +84,6 @@ if (!$car) {
           aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="logout.php">Sign out</a>
-    </div>
-  </div>
 </header>
 
 <div class="container-fluid">
@@ -95,9 +96,11 @@ if (!$car) {
                 <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="workOnCar.php"><i data-feather="bar-chart-2"></i> Car Info</a></li>
                 <li class="nav-item"><a class="nav-link" href="finishedCars.php"><i data-feather="check-square"></i> Finished Cars</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.php"><i data-feather="log-out"></i> Log Out</a></li>
             <?php } else { ?>
                 <li class="nav-item"><a class="nav-link" href="appointments.php"><i data-feather="calendar"></i> Appointments</a></li>
                 <li class="nav-item"><a class="nav-link" href="makeAppointment.php"><i data-feather="plus-circle"></i> Make Appointment</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.php"><i data-feather="log-out"></i> Log Out</a></li>
             <?php } ?>
         </ul>
       </div>
@@ -106,8 +109,9 @@ if (!$car) {
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <h2>Edit Car Stats for <?= htmlspecialchars($car['make']) ?> <?= htmlspecialchars($car['model']) ?> (<?= htmlspecialchars($car['year']) ?>)</h2>
       <form action="updateCarStats.php" method="post">
-        <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($car['id']) ?>">
-
+        <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['car_id']) ?>">
+        <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($car['appointment_id']) ?>">
+        
         <div class="form-floating">
           <input type="text" class="form-control" id="engine_type" placeholder="Engine Type" name="engine_type" value="<?= htmlspecialchars($car['engine_type'] ?? '') ?>">
           <label for="engine_type">Engine Type</label>
@@ -141,11 +145,6 @@ if (!$car) {
         <div class="form-floating">
           <input type="number" class="form-control" id="weight" placeholder="Weight" name="weight" value="<?= htmlspecialchars($car['weight'] ?? '') ?>">
           <label for="mpg_city">Weight</label>
-        </div>
-
-        <div class="form-floating">
-          <textarea class="form-control" id="description" placeholder="Description" name="description" value="<?= htmlspecialchars($car['description'] ?? '') ?>"></textarea>
-          <label for="mpg_city">Description</label>
         </div>
 
         <br>

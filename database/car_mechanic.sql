@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2025 at 07:15 PM
+-- Generation Time: Oct 08, 2025 at 07:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,7 +47,8 @@ CREATE TABLE `appointments` (
 INSERT INTO `appointments` (`id`, `user_id`, `make`, `model`, `year`, `date`, `time`, `is_approved`, `image`, `working_on`) VALUES
 (1, 3, 'Volkswagen', 'Passat', 2021, '2025-09-25', '12:00', 'false', 'passat.jpg', 'false'),
 (3, 3, 'Yugo', 'Koral 45', 1991, '2025-10-15', '17:00', 'false', 'Yugo 45.jpg', 'false'),
-(4, 2, 'Porsche', '911', 2023, '2025-09-30', '19:00', 'true', 'porsche.jpg', 'false');
+(4, 2, 'Porsche', '911', 2023, '2025-09-30', '19:00', 'true', 'porsche.jpg', 'false'),
+(5, 3, 'Volkswagen', 'Tiguan', 2017, '2025-10-14', '12:00', 'true', 'Tiguan.jpg', 'true');
 
 -- --------------------------------------------------------
 
@@ -66,6 +67,13 @@ CREATE TABLE `cars` (
   `weight` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cars`
+--
+
+INSERT INTO `cars` (`car_id`, `engine_type`, `horsepower`, `torque`, `transmission`, `drivetrain`, `fuel_type`, `weight`, `description`) VALUES
+(5, 'I4', 150, 340, 'DSG-7speed', 'FWD', 'Diesel', '2150', 'VW Tiguan');
 
 -- --------------------------------------------------------
 
@@ -122,7 +130,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
